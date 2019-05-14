@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Arron FE Blog</title>
+    <link href="https://arronf2e.github.io/gh-pages/feed.xml" rel="self" />
+    <link href="https://arronf2e.github.io/gh-pages" />
+    <updated>2019-05-14T11:55:22+08:00</updated>
+    <author>
+        <name>ARRON</name>
+    </author>
+    <id>https://arronf2e.github.io/gh-pages</id>
+
+    <entry>
+        <title>(a&#x3D;&#x3D; 1 &amp;&amp; a &#x3D;&#x3D;2 &amp;&amp; a&#x3D;&#x3D;3) ever evaluate to true? 几种解法分析</title>
+        <author>
+            <name>ARRON</name>
+        </author>
+        <link href="https://arronf2e.github.io/gh-pages/a-1-and-a-2-and-a3-ever-evaluate-to-true-ji-chong-jie-fa-fen-xi.html"/>
+        <id>https://arronf2e.github.io/gh-pages/a-1-and-a-2-and-a3-ever-evaluate-to-true-ji-chong-jie-fa-fen-xi.html</id>
+
+        <updated>2019-05-14T11:46:18+08:00</updated>
+            <summary>
+                <![CDATA[
+                    1. Object.defineProperty var val = 1; Object.defineProperty(window, 'a', { configurable: true, get: function() { console.log(`触发第${val}次get`); return val++ } }) if(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) { console.log('yes!') } 触发第1次get 触发第2次get 触发第3次get yes! 2. toString() valueOf() const b = { i:&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                1. Object.defineProperty<br>
+<pre>var val = 1;<br>Object.defineProperty(window, 'a', {<br>    configurable: true,<br>    get: function() {<br>        console.log(`触发第${val}次get`);<br>        return val++<br>    }<br>})<br>if(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) {<br>    console.log('yes!')<br>}<br><br>触发第1次get<br>触发第2次get<br>触发第3次get<br>yes!</pre>
+<p> </p>
+<p>2. toString() valueOf()</p>
+<pre>const b = {<br>    i: 1,<br>    toString: function () {<br>        return this.i++;<br>    }<br>}<br>if(b == 1 &amp;&amp; b == 2 &amp;&amp; b == 3) {<br>     console.log('Hello World!'); // Hello World!<br>}<br><br>const b = {<br>    i: 1,<br>    valueOf: function () {<br>        return this.i++;<br>    }<br>}<br>if(b == 1 &amp;&amp; b == 2 &amp;&amp; b == 3) {<br>    console.log('Hello World!'); // Hello World!<br>}</pre>
+<br>== 会隐式调用toString或者valueOf方法，如果原始类型的值和对象比较，对象会转为原始类型的值，再进行比较。对象转换成原始类型的值，算法是先调用valueOf方法，如果返回的还是对象，再接着调用toString方法<br><br>3. array.join = array.shift<br>
+<pre>var a = [1,2,3];<br>a.join = a.shift;<br>console.log(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3);</pre>
+a == 1 ，此时 a 返回的就是shift返回的第一个元素 1 ，比较完之后 a = [2,3]<br> a == 2 ，此时 a 返回的就是shift返回的第一个元素 2 ，比较完之后 a = [3]<br> a == 3 ，此时 a 返回的就是shift返回的第一个元素 3 ，比较完之后 a = []<br><br>数组也是对象，数组的toString 方法返回一个字符串，该字符串由数组中的每个元素的 toString() 返回值经调用 join() 方法连接（由逗号隔开）组成。
+            ]]>
+        </content>
+    </entry>
+</feed>
